@@ -1,0 +1,2073 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Tucker Assignment16</title>
+		<style>
+			body{
+				margin-left: auto;
+				margin-right: auto;
+				width:1200px;	
+		    }
+			#tetris-border{
+				border: 1px solid black;
+				width: 360px;
+				height: 660px;
+				margin-left: auto;
+				margin-right: auto;
+				position: relative;
+			}
+			#Grid{
+				width: 360px;
+				height: 660px;
+				
+				position: absolute;
+			}
+			#segment{
+				width: 30px;
+				height: 30px;
+				border: 1px solid black;
+				background-color: red;
+				position: absolute;
+				
+			}
+			#S-Shape{
+				width: 30px;
+				height: 30px;
+				border: 1px solid black;
+				background-color: lime;
+				position: absolute;
+			}
+			
+			#I-Shape{
+				width: 30px;
+				height: 30px;
+				border: 1px solid black;
+				background-color: yellow;
+				position: absolute;	
+			}
+			
+			#L-Shape{
+				width: 30px;
+				height: 30px;
+				border: 1px solid black;
+				background-color: orange;
+				position: absolute;
+			}
+			
+			#T-Shape{
+				width: 30px;
+				height: 30px;
+				border: 1px solid black;
+				background-color: darkblue;
+				position: absolute;
+			}
+			
+			#J-Shape{
+				width: 30px;
+				height: 30px;
+				border: 1px solid black;
+				background-color: magenta;
+				position: absolute;
+			}
+			
+			#Z-Shape{
+				width: 30px;
+				height: 30px;
+				border: 1px solid black;
+				background-color: cyan;
+				position: absolute;
+				
+			}
+			
+			.solid-segment{
+				width: 30px;
+				height: 30px;
+				border: 1px solid black;
+				background-color: red;
+				position: absolute;
+			}
+			.empty-segment{
+				
+			}
+			
+			.solid-S{
+				width: 30px;
+				height: 30px;
+				border: 1px solid black;
+				background-color: blue;
+				position: absolute;
+			}
+			
+			#next-shape{
+				width: 200px;
+				height: 200px;
+				border: 2px solid black;
+				position: absolute;
+				left: 970px;
+				top: 30px;
+			}
+			
+			#nextImg{
+				position: absolute;
+				top: 50px;
+				left: 50px;
+			}
+			
+		</style>
+		<script type="text/javascript">
+			window.onload = function(){
+				 
+			
+				var iState = 0;
+				var zState = 0;
+				var sState = 0;
+				var tState = 0;
+				var lState = 0;
+				var jState = 0;
+				var nextShape;
+				//var audio = new Audio('tetris.wav');
+				var img = document.getElementById("nextImg");
+				var canvas = document.getElementById("Grid");
+				var ctx = canvas.getContext("2d");
+				canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
+				
+				
+				function clearRows(){
+					var counter = 0;
+					var divs = document.getElementsByClassName("solid-segment");
+					var tempRow;
+					for(var h = 0; h < 660; h += 30){
+						for(var w = 0; w < 360; w += 30){
+							for(var i = 0; i < divs.length; i++){
+								if(parseInt(divs[i].style.top, 10) == h && parseInt(divs[i].style.left, 10) == w){
+									counter++;
+									tempRow.push(divs[i]);
+									console.log(counter);
+									if(counter == 12){
+										for(var i = 0; i < tempRow.length; i++){
+											tempRow[i].className = "empty-segment";
+										}
+										for(var i = 0; i < divs.length; i++){
+												if(parseInt(divs[i].style.top, 10) < h){
+													divs[i].style.top = (30 + parseInt(divs[i].style.top, 10) + "px");
+												}	
+										}
+									}
+								}
+							}	
+						}
+						counter = 0;
+						tempRow = [];
+					}
+				}
+			
+				function start(){
+					//audio.loop = true;
+					//audio.play();
+					
+					
+					
+					canvas.style.position = "absolute";
+					canvas.width = 360;
+					canvas.height = 660;
+					canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
+					
+					canvas.style.top = "9px";
+					
+					//canvas.style.margin = "auto";
+					ctx.setLineDash([2]);
+					for(var i = 0; i < 12; i++){
+						for(var j = 0; j < 22; j++)
+							ctx.rect(i*30,j*30,30,30);
+					}
+					ctx.stroke();
+					nextShape = getRandomNumber();
+					randomNumber.set(getRandomNumber());
+					
+					switch(nextShape) {
+						case 1:
+							img.src = "O.png";
+							break;
+						case 2:
+							img.src = "Z.png";
+							break;
+						case 3:
+							img.src = "S.png";
+							break;
+						case 4:
+							img.src = "I.png";
+							break;
+						case 5:
+							img.src = "J.png";
+							break;
+						case 6:
+							img.src = "L.png";
+							break;
+						case 7:
+							img.src = "T.png";
+							break;
+					}
+					switch(randomNumber.get()) {
+						case 1:
+							Square();
+							break;
+						case 2:
+							zShape();
+							break;
+						case 3:
+							sShape();
+							break;
+						case 4:
+							iShape();
+							break;
+						case 5:
+							jShape();
+							break;
+						case 6:
+							lShape();
+							break;
+						case 7:
+							tShape();
+							break;
+					}
+					myVar2.setInterval();
+					myVar3.setInterval();
+				}
+			
+				function disp(str){
+					alert(str);
+				}
+				
+				function getRandomNumber(){
+					return Math.floor((Math.random() * 7) + 1); 
+				}
+				
+				var randomNumber = (function(){
+					var randomNum;
+					return {
+						get: function(){
+							return randomNum;
+						},
+						set: function(val){
+							return randomNum = val;
+						}
+					};
+				})();
+				
+				document.addEventListener("keypress", function (e) {
+					var divs = document.getElementsByClassName("solid-segment");
+					// wrapped in a function
+					e = e || e.event;
+					if (e.keyCode == '19') {
+						// space key
+						audio.pause();
+						disp("paused");
+						audio.play();
+						
+					}
+
+					else if (e.keyCode == '38') {
+						// up arrow
+						switch(randomNumber.get()) {
+							case 1: //square
+								break;
+							case 2: // zShape up Press
+								if(zState == 0 && (left.get() + 30 > 0 && left.get() < 300))
+									zState = 1;
+								else if(zState == 1 && (left.get() + 30 > 0 && left.get() < 300))
+									zState = 0;
+								break;
+							case 3: // sShape up Press
+								if(sState == 0 && (left.get() + 30 > 0 && left.get() < 300))
+									sState = 1;
+								else if(sState == 1 && (left.get() + 30 > 0 && left.get() < 300))
+									sState = 0;
+								break;
+							case 4: // iShape up Press
+								if(iState == 0 && (left.get() > 0 && left.get() < 300))
+									iState = 1;
+								else
+									iState = 0;
+								break;
+							case 5: // jShape up Press
+								switch(jState){
+									case 0:
+										if(left.get() < 300)
+											jState = 1;
+										break;
+									case 1:
+											jState = 2;
+										break;
+									case 2:
+										if(left.get() < 300)
+											jState = 3;
+										break;
+									case 3:
+											jState = 0;
+										break;
+								}
+								break; 
+							case 6: // lShape up Press
+								switch(lState){
+									case 0:
+										if(left.get() < 300)
+											lState = 1;
+										break;
+									case 1:
+										lState = 2;
+										break;
+									case 2:
+										if(left.get() < 300)
+											lState = 3;
+										break;
+									case 3:
+										lState = 0;
+										break;
+								}
+								break;
+							case 7: // tShape up Press
+								switch(tState){
+									case 0:
+										tState = 1;
+										break;
+									case 1:
+										if(left.get() + 30 > 0){
+											tState = 2;
+										}
+										break;
+									case 2:
+										tState = 3;
+										break;
+									case 3:
+										if(left.get() < 300){
+											tState = 0;
+										}
+										break;
+								}
+								break;
+						}
+					}
+					else if (e.keyCode == '40') {
+						// down arrow
+						if(top.get() < 600)
+							top.increment(30);
+					}
+					else if (e.keyCode == '37') {
+						// left arrow
+						switch(randomNumber.get()) {
+							case 1: //square
+								if(left.get() > 0)
+									left.decrement(30);
+								else
+									left.setVal(left.get());
+								break;
+							case 2: // zShape
+								if(zState == 0){
+									if(left.get() > 0)
+										left.decrement(30);
+									else
+										left.setVal(left.get());
+								}
+								else{
+									if(left.get() + 30 > 0)
+										left.decrement(30);
+									else
+										left.setVal(left.get());
+								}
+								break;
+							case 3: // sShape
+								if(left.get() > 0)
+									left.decrement(30);
+								else
+									left.setVal(left.get());
+								break;
+							case 4: // iShape
+								if(iState == 0){
+									if(left.get() > 0)
+										left.decrement(30);
+									else
+										left.setVal(left.get());
+								}
+								else{
+									if(left.get() - 30 > 0)
+										left.decrement(30);
+									else
+										left.setVal(left.get());
+								}
+								
+								break;
+							case 5: // jShape
+								if(left.get() > 0)
+									left.decrement(30);
+								else
+									left.setVal(left.get());
+								break;
+							case 6: // lShape
+								if(left.get() > 0)
+									left.decrement(30);
+								else
+									left.setVal(left.get());
+								break;
+							case 7: // tShape
+								if(tState == 1){
+									if(left.get() + 30 > 0)
+										left.decrement(30);
+									else
+										left.setVal(left.get());
+								}
+								else{
+									if(left.get() > 0)
+										left.decrement(30);
+									else
+										left.setVal(left.get());
+								}
+								break;
+						}
+					}
+					else if (e.keyCode == '39') {
+					   // right arrow
+						switch(randomNumber.get()) {
+							case 1: //swqaure
+								if(left.get() < 300)
+									left.increment(30);
+								else
+									left.setVal(left.get());
+								break;
+							case 2: // zShape
+								if(left.get() < 270)
+									left.increment(30);
+								else
+									left.setVal(left.get());
+								break;
+							case 3: // sShape
+								if(sState == 0){
+									if(left.get() < 270)
+										left.increment(30);
+									else
+										left.setVal(left.get());
+								}
+								else{
+									if(left.get() < 300)
+										left.increment(30);
+									else
+										left.setVal(left.get());
+								}
+								
+								break;
+							case 4: // iShape
+								if(iState == 0){
+									if(left.get() < 330)
+										left.increment(30);
+									else
+										left.setVal(left.get());
+									}
+								else{
+									if(left.get() < 270)
+										left.increment(30);
+									else
+										left.setVal(left.get());
+								}
+								
+								break;
+							case 5: // jShape
+								if(jState == 1){
+									if(left.get() < 270)
+										left.increment(30);
+									else
+										left.setVal(left.get());
+									}
+								else if(jState == 3){
+									if(left.get() < 270)
+										left.increment(30);
+									else
+										left.setVal(left.get());
+								}
+								else{
+									if(left.get() < 300)
+										left.increment(30);
+									else
+										left.setVal(left.get());
+								}
+								
+								break;
+							case 6: // lShape
+								switch(lState){
+									case 0:
+										if(left.get() < 300)
+											left.increment(30);
+										else
+											left.setVal(left.get());
+										break;
+									case 1:
+										if(left.get() + 30 < 300)
+											left.increment(30);
+										else
+											left.setVal(left.get());
+										break;
+									case 2:
+										if(left.get() < 300)
+											left.increment(30);
+										else
+											left.setVal(left.get());
+										break;
+									case 3:
+										if(left.get() + 30 < 300)
+											left.increment(30);
+										else
+											left.setVal(left.get());
+										break;
+								}
+								
+								break;
+							case 7: // tShape
+								if(tState == 3){
+									if(left.get() < 300)
+										left.increment(30);
+									else
+										left.setVal(left.get());
+								}
+								else{
+									if(left.get() < 270)
+										left.increment(30);
+									else
+										left.setVal(left.get());
+									}
+								break;
+						}
+					}
+				} );
+
+				var segment1 = (function(){
+					var segment = document.createElement("div");
+					return {
+						setId: function(val){
+							return segment.id = val;
+						},
+						setTop: function(val){
+							return segment.style.top = val;
+						},
+						setLeft: function(val){
+							return segment.style.left = val;
+						},
+						moveLeft: function(val){
+							return segment.style.left -= 30;
+						},
+						get: function(){
+							return segment;
+						},
+						getTop: function(){
+							return segment.style.top;
+						},
+						setColor: function(val){
+							return segment.style.backgroundColor = val;
+						},
+						
+					};
+				})();
+				
+				var segment2 = (function(){
+					var segmentTwo = document.createElement("div");
+					return {
+						setId: function(val){
+							return segmentTwo.id = val;
+						},
+						setTop: function(val){
+							return segmentTwo.style.top = val;
+						},
+						setLeft: function(val){
+							return segmentTwo.style.left = val;
+						},
+						get: function(){
+							return segmentTwo;
+						},
+						setColor: function(val){
+							return segmentTwo.style.backgroundColor = val;
+						}
+					};
+				})();
+				
+				var segment3 = (function(){
+					segmentThree = document.createElement("div");
+					return {
+						setId: function(val){
+							return segmentThree.id = val;
+						},
+						setTop: function(val){
+							return segmentThree.style.top = val;
+						},
+						setLeft: function(val){
+							return segmentThree.style.left = val;
+						},
+						get: function(){
+							return segmentThree;
+						},
+						setColor: function(val){
+							return segmentThree.style.backgroundColor = val;
+						}
+					};
+				})();
+				
+				var segment4 = (function(){
+					var segmentFour = document.createElement("div");
+					return {
+						setId: function(val){
+							return segmentFour.id = val;
+						},
+						setTop: function(val){
+							return segmentFour.style.top = val;
+						},
+						setLeft: function(val){
+							return segmentFour.style.left = val;
+						},
+						get: function(){
+							return segmentFour;
+						},
+						setColor: function(val){
+							return segmentFour.style.backgroundColor = val;
+						}
+					};
+				})();
+				
+				var top = (function(){
+					var topVal = 0;
+					return {
+						setVal: function(val){
+							return topVal = val;
+						},
+						increment: function(val){
+							return topVal += val;
+						},
+						get: function(){
+							return topVal;
+						}
+					};
+				})();
+				
+				var left = (function(){
+					var leftVal = 0;
+					return {
+						setVal: function(val){
+							return leftVal = val;
+						},
+						increment: function(val){
+							return leftVal += val;
+						},
+						decrement: function(val){
+							return leftVal -= val;
+						},
+						get: function(){
+							return leftVal;
+						}
+					};
+				})();
+				
+				var myVar = (function(){
+					var timerVar;
+					return {
+						setInterval: function(){
+							return timerVar = setInterval(myTimer, 300);
+						},
+						clearInterval: function(){
+							return clearInterval(timerVar);
+						}
+					};
+				})();
+				
+				var myVar2 = (function(){
+					var timerVar;
+					return {
+						setInterval: function(){
+							return timerVar = setInterval(startTimer, 200);
+						},
+						clearInterval: function(){
+							return clearInterval(timerVar);
+						}
+					};
+				})();
+				
+				var myVar3 = (function(){
+					var timerVar;
+					return {
+						setInterval: function(){
+							return timerVar = setInterval(refreshTimer,5);
+						},
+						clearInterval: function(){
+							return clearInterval(timerVar);
+						}
+					};
+				})();
+				
+				var counter = (function(){
+					var count = 0;
+					return {
+						get: function(){
+							return count;
+						},
+						set: function(val){
+							return count = val;
+						},
+						increment: function(){
+							return ++count;
+						},
+					};
+				})();
+				
+				start();
+				
+				function tShape(){
+					segment1.setId("T-Shape");
+					segment1.setLeft(180 +"px");
+					segment2.setId("T-Shape");
+					segment2.setTop(30 +"px");
+					segment2.setLeft(150 +"px");
+					segment3.setId("T-Shape");
+					segment3.setTop(30 +"px");
+					segment3.setLeft(180 +"px");
+					segment4.setId("T-Shape");
+					segment4.setLeft(210 +"px");
+					segment4.setTop(30 +"px");
+					left.setVal(150);
+					document.getElementById("tetris-border").appendChild(segment1.get());
+					document.getElementById("tetris-border").appendChild(segment2.get());
+					document.getElementById("tetris-border").appendChild(segment3.get());
+					document.getElementById("tetris-border").appendChild(segment4.get());
+				}
+				
+				function drawT(){
+					switch(tState){
+						case 0:
+							segment1.setTop(top.get() + "px");
+							segment1.setLeft(30 + left.get() +"px");
+							segment2.setTop(30 + top.get() + "px");
+							segment2.setLeft(left.get() +"px");
+							segment3.setTop(30 + top.get() + "px");
+							segment3.setLeft(30 + left.get() +"px");
+							segment4.setTop(30 + top.get() + "px");
+							segment4.setLeft(60 + left.get() + "px");
+							segment1.setColor("darkblue");
+							segment2.setColor("darkblue");
+							segment3.setColor("darkblue");
+							segment4.setColor("darkblue");
+							break;
+						case 1:
+							segment1.setTop(top.get() + "px");
+							segment1.setLeft(30 + left.get() +"px");
+							segment2.setTop(60 + top.get() + "px");
+							segment2.setLeft(30 + left.get() +"px");
+							segment3.setTop(30 + top.get() + "px");
+							segment3.setLeft(30 + left.get() +"px");
+							segment4.setTop(30 + top.get() + "px");
+							segment4.setLeft(60 + left.get() + "px");
+							segment1.setColor("darkblue");
+							segment2.setColor("darkblue");
+							segment3.setColor("darkblue");
+							segment4.setColor("darkblue");
+							break;
+						case 2:
+							segment1.setTop(60 + top.get() + "px");
+							segment1.setLeft(30 + left.get() +"px");
+							segment2.setTop(30 + top.get() + "px");
+							segment2.setLeft(left.get() +"px");
+							segment3.setTop(30 + top.get() + "px");
+							segment3.setLeft(30 + left.get() +"px");
+							segment4.setTop(30 + top.get() + "px");
+							segment4.setLeft(60 + left.get() + "px");
+							segment1.setColor("darkblue");
+							segment2.setColor("darkblue");
+							segment3.setColor("darkblue");
+							segment4.setColor("darkblue");
+							break;
+						case 3:
+							segment1.setTop(top.get() + "px");
+							segment1.setLeft(30 + left.get() +"px");
+							segment2.setTop(30 + top.get() + "px");
+							segment2.setLeft(left.get() +"px");
+							segment3.setTop(30 + top.get() + "px");
+							segment3.setLeft(30 + left.get() +"px");
+							segment4.setTop(60 + top.get() + "px");
+							segment4.setLeft(30 + left.get() + "px");
+							segment1.setColor("darkblue");
+							segment2.setColor("darkblue");
+							segment3.setColor("darkblue");
+							segment4.setColor("darkblue");
+							break;
+					}
+					
+				}
+				
+				function printT(){
+					var seg1 = document.createElement("div");
+					var seg2 = document.createElement("div");
+					var seg3 = document.createElement("div");
+					var seg4 = document.createElement("div");
+					seg1.className = "solid-segment";
+					seg2.className = "solid-segment";
+					seg3.className = "solid-segment";
+					seg4.className = "solid-segment";
+					seg1.style.backgroundColor = "darkblue";
+					seg2.style.backgroundColor = "darkblue";
+					seg3.style.backgroundColor = "darkblue";
+					seg4.style.backgroundColor = "darkblue";
+					switch(tState){
+						case 0:
+							seg1.style.top = (top.get() + "px");
+							seg1.style.left = (30 + left.get() + "px");
+							seg2.style.top = (30 + top.get() + "px");
+							seg2.style.left = (left.get() + "px");
+							seg3.style.top = (30 + top.get() + "px");
+							seg3.style.left = (30 + left.get() + "px");
+							seg4.style.top = (30 + top.get() + "px");
+							seg4.style.left = (60 + left.get() + "px");
+							break;
+						case 1:
+							seg1.style.top = (top.get() + "px");
+							seg1.style.left = (30 + left.get() + "px");
+							seg2.style.top = (60 + top.get() + "px");
+							seg2.style.left = (30 + left.get() + "px");
+							seg3.style.top = (30 + top.get() + "px");
+							seg3.style.left = (30 + left.get() + "px");
+							seg4.style.top = (30 + top.get() + "px");
+							seg4.style.left = (60 + left.get() + "px");
+							break;
+						case 2:
+							seg1.style.top = (60 + top.get() + "px");
+							seg1.style.left = (30 + left.get() + "px");
+							seg2.style.top = (30 + top.get() + "px");
+							seg2.style.left = (left.get() + "px");
+							seg3.style.top = (30 + top.get() + "px");
+							seg3.style.left = (30 + left.get() + "px");
+							seg4.style.top = (30 + top.get() + "px");
+							seg4.style.left = (60 + left.get() + "px");
+							break;
+						case 3:
+							seg1.style.top = (top.get() + "px");
+							seg1.style.left = (30 + left.get() + "px");
+							seg2.style.top = (30 + top.get() + "px");
+							seg2.style.left = (left.get() + "px");
+							seg3.style.top = (30 + top.get() + "px");
+							seg3.style.left = (30 + left.get() + "px");
+							seg4.style.top = (60 + top.get() + "px");
+							seg4.style.left = (30 + left.get() + "px");
+							break;
+					}
+					
+					document.getElementById("tetris-border").appendChild(seg1);
+					document.getElementById("tetris-border").appendChild(seg2);
+					document.getElementById("tetris-border").appendChild(seg3);
+					document.getElementById("tetris-border").appendChild(seg4);
+					top.setVal(0);
+					left.setVal(150);
+				}
+				
+				function testT(){
+					var divs = document.getElementsByClassName("solid-segment");
+					var segments = [segment1.get(),segment2.get(),segment3.get(),segment4.get()];
+					switch(tState){
+						case 0:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10)
+								|| left.get() + 30 == parseInt(divs[i].style.left, 10)
+								|| left.get() + 60 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printT();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								
+							}
+							if(top.get() > 570){
+								myVar.clearInterval();
+								printT();
+								myVar2.setInterval(); 
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+							break;
+						case 1:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& left.get() + 30 == parseInt(divs[i].style.left, 10)){
+									myVar.clearInterval();
+									printT();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& left.get() + 60 == parseInt(divs[i].style.left, 10)){
+									myVar.clearInterval();
+									printT();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+							}
+							if(top.get() > 540){
+								myVar.clearInterval();
+								printT();
+								myVar2.setInterval(); 
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+							break;
+						case 2:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printT();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& (left.get() + 30 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printT();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& (left.get() + 60 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printT();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								
+							}
+							if(top.get() > 540){
+								myVar.clearInterval();
+								printT();
+								myVar2.setInterval(); 
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+							break;
+						case 3:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printT();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& (left.get() + 30 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printT();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								
+							}
+							if(top.get() > 570){
+								myVar.clearInterval();
+								printT();
+								myVar2.setInterval(); 
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+							break;
+					}
+					
+				}
+				
+				function lShape(){
+					segment1.setId("L-Shape");
+					segment1.setLeft(150 +"px");
+					segment2.setId("L-Shape");
+					segment2.setTop(30 +"px");
+					segment2.setLeft(150 +"px");
+					segment3.setId("L-Shape");
+					segment3.setTop(60 +"px");
+					segment3.setLeft(150 +"px");
+					segment4.setId("L-Shape");
+					segment4.setLeft(180 +"px");
+					segment4.setTop(60 +"px");
+					left.setVal(150);
+					document.getElementById("tetris-border").appendChild(segment1.get());
+					document.getElementById("tetris-border").appendChild(segment2.get());
+					document.getElementById("tetris-border").appendChild(segment3.get());
+					document.getElementById("tetris-border").appendChild(segment4.get());
+				}
+				
+				function drawL(){
+					switch(lState){
+						case 0:
+							segment1.setTop(top.get() + "px");
+							segment1.setLeft(left.get() +"px");
+							segment2.setTop(30 + top.get() + "px");
+							segment2.setLeft(left.get() +"px");
+							segment3.setTop(60 + top.get() + "px");
+							segment3.setLeft(left.get() +"px");
+							segment4.setTop(60 + top.get() + "px");
+							segment4.setLeft(30 + left.get() + "px");
+							segment1.setColor("orange");
+							segment2.setColor("orange");
+							segment3.setColor("orange");
+							segment4.setColor("orange");	
+							break;
+						case 1:
+							segment1.setTop(30 + top.get() + "px");
+							segment1.setLeft(30 + left.get() +"px");
+							segment2.setTop(30 + top.get() + "px");
+							segment2.setLeft(left.get() +"px");
+							segment3.setTop(60 + top.get() + "px");
+							segment3.setLeft(left.get() +"px");
+							segment4.setTop(30 + top.get() + "px");
+							segment4.setLeft(60 + left.get() + "px");
+							segment1.setColor("orange");
+							segment2.setColor("orange");
+							segment3.setColor("orange");
+							segment4.setColor("orange");	
+							break;
+						case 2:
+							segment1.setTop(top.get() + "px");
+							segment1.setLeft(left.get() +"px");
+							segment2.setTop(top.get() + "px");
+							segment2.setLeft(30 + left.get() +"px");
+							segment3.setTop(60 + top.get() + "px");
+							segment3.setLeft(30 + left.get() +"px");
+							segment4.setTop(30 + top.get() + "px");
+							segment4.setLeft(30 + left.get() + "px");
+							segment1.setColor("orange");
+							segment2.setColor("orange");
+							segment3.setColor("orange");
+							segment4.setColor("orange");	
+							break;
+						case 3:
+							segment1.setTop(60 + top.get() + "px");
+							segment1.setLeft(60 + left.get() +"px");
+							segment2.setTop(30 + top.get() + "px");
+							segment2.setLeft(60 + left.get() +"px");
+							segment3.setTop(60 + top.get() + "px");
+							segment3.setLeft(left.get() + "px");
+							segment4.setTop(60 + top.get() + "px");
+							segment4.setLeft(30 + left.get() + "px");
+							segment1.setColor("orange");
+							segment2.setColor("orange");
+							segment3.setColor("orange");
+							segment4.setColor("orange");	
+							break;
+					}
+					
+				}
+				
+				function printL(){
+					var seg1 = document.createElement("div");
+					var seg2 = document.createElement("div");
+					var seg3 = document.createElement("div");
+					var seg4 = document.createElement("div");
+					seg1.className = "solid-segment";
+					seg2.className = "solid-segment";
+					seg3.className = "solid-segment";
+					seg4.className = "solid-segment";
+					seg1.style.backgroundColor = "orange";
+					seg2.style.backgroundColor = "orange";
+					seg3.style.backgroundColor = "orange";
+					seg4.style.backgroundColor = "orange";
+					switch(lState){
+						case 0:
+							seg1.style.top = (top.get() + "px");
+							seg1.style.left = (left.get() + "px");
+							seg2.style.top = (30 + top.get() + "px");
+							seg2.style.left = (left.get() + "px");
+							seg3.style.top = (60 + top.get() + "px");
+							seg3.style.left = (left.get() + "px");
+							seg4.style.top = (60 + top.get() + "px");
+							seg4.style.left = (30 + left.get() + "px");
+							break;
+						case 1:
+							seg1.style.top = (30 + top.get() + "px");
+							seg1.style.left = (60 + left.get() + "px");
+							seg2.style.top = (30 + top.get() + "px");
+							seg2.style.left = (left.get() + "px");
+							seg3.style.top = (60 + top.get() + "px");
+							seg3.style.left = (left.get() + "px");
+							seg4.style.top = (30 + top.get() + "px");
+							seg4.style.left = (30 + left.get() + "px");
+							break;
+						case 2:
+							seg1.style.top = (top.get() + "px");
+							seg1.style.left = (left.get() + "px");
+							seg2.style.top = (top.get() + "px");
+							seg2.style.left = (30 + left.get() + "px");
+							seg3.style.top = (30 + top.get() + "px");
+							seg3.style.left = (30 + left.get() + "px");
+							seg4.style.top = (60 + top.get() + "px");
+							seg4.style.left = (30 + left.get() + "px");
+							break;
+						case 3:
+							seg1.style.top = (60 + top.get() + "px");
+							seg1.style.left = (60 + left.get() + "px");
+							seg2.style.top = (30 + top.get() + "px");
+							seg2.style.left = (60 + left.get() + "px");
+							seg3.style.top = (60 + top.get() + "px");
+							seg3.style.left = (left.get() + "px");
+							seg4.style.top = (60 + top.get() + "px");
+							seg4.style.left = (30 + left.get() + "px");
+							break;
+					}
+					
+					document.getElementById("tetris-border").appendChild(seg1);
+					document.getElementById("tetris-border").appendChild(seg2);
+					document.getElementById("tetris-border").appendChild(seg3);
+					document.getElementById("tetris-border").appendChild(seg4);
+					top.setVal(0);
+					left.setVal(150);
+				}
+				
+				function testL(){
+					var divs = document.getElementsByClassName("solid-segment");
+					var segments = [segment1.get(),segment2.get(),segment3.get(),segment4.get()];
+					switch(lState){
+						case 0:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10)
+								|| left.get() + 30 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printL();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+							}
+							break;
+						case 1:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& left.get() == parseInt(divs[i].style.left, 10)){
+									myVar.clearInterval();
+									printL();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10)
+								|| left.get() + 30 == parseInt(divs[i].style.left, 10)
+								|| left.get() + 60 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printL();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+							}
+							
+							break;
+						case 2:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+								&& left.get()  == parseInt(divs[i].style.left, 10)){
+									myVar.clearInterval();
+									printL();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& left.get() + 30 == parseInt(divs[i].style.left, 10)){
+									myVar.clearInterval();
+									printL();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+							}
+							break;
+						case 3: 
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10)
+									|| left.get() + 30 == parseInt(divs[i].style.left, 10)
+									|| left.get() + 60 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printL();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+							}
+							break;
+					}
+					
+					if(top.get() > 540){
+						myVar.clearInterval();
+						printL();
+						myVar2.setInterval(); 
+						randomNumber.set(nextShape);
+						nextShape = getRandomNumber();
+					}
+				}
+				
+				function jShape(){
+					segment1.setId("J-Shape");
+					segment1.setLeft(150 +"px");
+					segment1.setTop(60 + "px");
+					
+					segment2.setId("J-Shape");
+					segment2.setTop(60 +"px");
+					segment2.setLeft(180 +"px");
+					segment3.setId("J-Shape");
+					segment3.setTop(30 +"px");
+					segment3.setLeft(180 +"px");
+					segment4.setId("J-Shape");
+					segment4.setLeft(180 +"px");
+					left.setVal(150);
+					document.getElementById("tetris-border").appendChild(segment1.get());
+					document.getElementById("tetris-border").appendChild(segment2.get());
+					document.getElementById("tetris-border").appendChild(segment3.get());
+					document.getElementById("tetris-border").appendChild(segment4.get());
+				}
+				
+				function drawJ(){
+					switch(jState){
+						case 0:
+							segment1.setTop(60 + top.get() + "px");
+							segment1.setLeft(left.get() +"px");
+							segment2.setTop(60 + top.get() + "px");
+							segment2.setLeft(30 + left.get() +"px");
+							segment3.setTop(30 + top.get() + "px");
+							segment3.setLeft(30 + left.get() +"px");
+							segment4.setTop(top.get() + "px");
+							segment4.setLeft(30 + left.get() + "px");
+							segment1.setColor("magenta");
+							segment2.setColor("magenta");
+							segment3.setColor("magenta");
+							segment4.setColor("magenta");
+							break;
+						case 1:
+							segment1.setTop(60 + top.get() + "px");
+							segment1.setLeft(left.get() +"px");
+							segment2.setTop(60 + top.get() + "px");
+							segment2.setLeft(30 + left.get() +"px");
+							segment3.setTop(30 + top.get() + "px");
+							segment3.setLeft(left.get() +"px");
+							segment4.setTop(60 + top.get() + "px");
+							segment4.setLeft(60 + left.get() + "px");
+							segment1.setColor("magenta");
+							segment2.setColor("magenta");
+							segment3.setColor("magenta");
+							segment4.setColor("magenta");
+							break;
+						case 2:
+							segment1.setTop(60 + top.get() + "px");
+							segment1.setLeft(left.get() +"px");
+							segment2.setTop(30 + top.get() + "px");
+							segment2.setLeft(left.get() +"px");
+							segment3.setTop(top.get() + "px");
+							segment3.setLeft(left.get() +"px");
+							segment4.setTop(top.get() + "px");
+							segment4.setLeft(30 + left.get() + "px");
+							segment1.setColor("magenta");
+							segment2.setColor("magenta");
+							segment3.setColor("magenta");
+							segment4.setColor("magenta");
+							break;
+						case 3:
+							segment1.setTop(30 + top.get() + "px");
+							segment1.setLeft(left.get() +"px");
+							segment2.setTop(60 + top.get() + "px");
+							segment2.setLeft(60 + left.get() +"px");
+							segment3.setTop(30 + top.get() + "px");
+							segment3.setLeft(30 + left.get() +"px");
+							segment4.setTop(30 + top.get() + "px");
+							segment4.setLeft(60 + left.get() + "px");
+							segment1.setColor("magenta");
+							segment2.setColor("magenta");
+							segment3.setColor("magenta");
+							segment4.setColor("magenta");
+							break;
+					}
+					
+				}
+				
+				function printJ(){
+					var seg1 = document.createElement("div");
+					var seg2 = document.createElement("div");
+					var seg3 = document.createElement("div");
+					var seg4 = document.createElement("div");
+					seg1.className = "solid-segment";
+					seg2.className = "solid-segment";
+					seg3.className = "solid-segment";
+					seg4.className = "solid-segment";
+					seg1.style.backgroundColor = "magenta";
+					seg2.style.backgroundColor = "magenta";
+					seg3.style.backgroundColor = "magenta";
+					seg4.style.backgroundColor = "magenta";
+					switch(jState){
+						case 0:
+							seg1.style.top = (60 + top.get() + "px");
+							seg1.style.left = (left.get() + "px");
+							seg2.style.top = (60 + top.get() + "px");
+							seg2.style.left = (30 + left.get() + "px");
+							seg3.style.top = (30 + top.get() + "px");
+							seg3.style.left = (30 + left.get() + "px");
+							seg4.style.top = (top.get() + "px");
+							seg4.style.left = (30 + left.get() + "px");
+							break;
+						case 1:
+							seg1.style.top = (60 + top.get() + "px");
+							seg1.style.left = (left.get() + "px");
+							seg2.style.top = (60 + top.get() + "px");
+							seg2.style.left = (30 + left.get() + "px");
+							seg3.style.top = (30 + top.get() + "px");
+							seg3.style.left = (left.get() + "px");
+							seg4.style.top = (60 + top.get() + "px");
+							seg4.style.left = (60 + left.get() + "px");
+							break;
+						case 2:
+							seg1.style.top = (60 + top.get() + "px");
+							seg1.style.left = (left.get() + "px");
+							seg2.style.top = (30 + top.get() + "px");
+							seg2.style.left = (left.get() + "px");
+							seg3.style.top = (top.get() + "px");
+							seg3.style.left = (left.get() + "px");
+							seg4.style.top = (top.get() + "px");
+							seg4.style.left = (30 + left.get() + "px");
+							break;
+						case 3:
+							seg1.style.top = (60 + top.get() + "px");
+							seg1.style.left = (60 + left.get() + "px");
+							seg2.style.top = (30 + top.get() + "px");
+							seg2.style.left = (left.get() + "px");
+							seg3.style.top = (30 + top.get() + "px");
+							seg3.style.left = (30 + left.get() + "px");
+							seg4.style.top = (30 + top.get() + "px");
+							seg4.style.left = (60 + left.get() + "px");
+							break;
+					}
+					
+					document.getElementById("tetris-border").appendChild(seg1);
+					document.getElementById("tetris-border").appendChild(seg2);
+					document.getElementById("tetris-border").appendChild(seg3);
+					document.getElementById("tetris-border").appendChild(seg4);
+					top.setVal(0);
+					left.setVal(150);
+				}
+				
+				function testJ(){
+					var divs = document.getElementsByClassName("solid-segment");
+					var segments = [segment1.get(),segment2.get(),segment3.get(),segment4.get()];
+					switch(jState){
+						case 0:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10)
+								|| left.get() + 30 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printJ();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+							}
+							break;
+						case 1:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10)
+								|| left.get() + 30 == parseInt(divs[i].style.left, 10)
+								|| left.get() + 60 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printJ();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+							}
+							break;
+						case 2:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printJ();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+								&& (left.get() + 30 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printJ();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+							}
+							break;
+						case 3:
+							for(var i = 0; i < divs.length; i++){
+								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& (left.get() == parseInt(divs[i].style.left, 10)
+								|| left.get() + 30 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printJ();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& (left.get() + 60 == parseInt(divs[i].style.left, 10))){
+									myVar.clearInterval();
+									printJ();
+									myVar2.setInterval();
+									randomNumber.set(nextShape);
+									nextShape = getRandomNumber();
+								}
+							}
+							break;
+					}
+					
+					if(top.get() > 540){
+						myVar.clearInterval();
+						printJ();
+						myVar2.setInterval(); 
+						randomNumber.set(nextShape);
+						nextShape = getRandomNumber();
+					}
+				}
+				
+				function iShape(){
+					segment1.setId("I-Shape");
+					segment1.setLeft(150 +"px");
+					
+					segment2.setId("I-Shape");
+					segment2.setTop(30 +"px");
+					segment2.setLeft(150 +"px");
+					segment3.setId("I-Shape");
+					segment3.setTop(60 +"px");
+					segment3.setLeft(150 +"px");
+					segment4.setId("I-Shape");
+					segment4.setTop(90 +"px");
+					segment4.setLeft(150 +"px");
+					left.setVal(150);
+					document.getElementById("tetris-border").appendChild(segment1.get());
+					document.getElementById("tetris-border").appendChild(segment2.get());
+					document.getElementById("tetris-border").appendChild(segment3.get());
+					document.getElementById("tetris-border").appendChild(segment4.get());
+				}
+				
+				function drawI(){
+					if(iState == 0)
+					{
+						segment1.setTop(top.get() + "px");
+						segment1.setLeft(left.get() +"px");
+						segment2.setTop(30 + top.get() + "px");
+						segment2.setLeft(left.get() +"px");
+						segment3.setTop(60 + top.get() + "px");
+						segment3.setLeft(left.get() +"px");
+						segment4.setTop(90 + top.get() + "px");
+						segment4.setLeft(left.get() +"px");
+						segment1.setColor("yellow");
+						segment2.setColor("yellow");
+						segment3.setColor("yellow");
+						segment4.setColor("yellow");
+					}
+					else{
+						segment1.setTop(30 + top.get() + "px");
+						segment1.setLeft(left.get() - 30 +"px");
+						segment2.setTop(30 + top.get() + "px");
+						segment2.setLeft(left.get() +"px");
+						segment3.setTop(30 + top.get() + "px");
+						segment3.setLeft(30 + left.get() +"px");
+						segment4.setTop(30 + top.get() + "px");
+						segment4.setLeft(60 + left.get() +"px");
+						segment1.setColor("yellow");
+						segment2.setColor("yellow");
+						segment3.setColor("yellow");
+						segment4.setColor("yellow");
+					}
+					
+				}
+				
+				function printI(){
+					var seg1 = document.createElement("div");
+					var seg2 = document.createElement("div");
+					var seg3 = document.createElement("div");
+					var seg4 = document.createElement("div");
+					seg1.className = "solid-segment";
+					seg2.className = "solid-segment";
+					seg3.className = "solid-segment";
+					seg4.className = "solid-segment";
+					seg1.style.backgroundColor = "yellow";
+					seg2.style.backgroundColor = "yellow";
+					seg3.style.backgroundColor = "yellow";
+					seg4.style.backgroundColor = "yellow";
+					if(iState == 0){
+						seg1.style.top = (top.get() + "px");
+						seg1.style.left = (left.get() + "px");
+						seg2.style.top = (30 + top.get() + "px");
+						seg2.style.left = (left.get() + "px");
+						seg3.style.top = (60 + top.get() + "px");
+						seg3.style.left = (left.get() + "px");
+						seg4.style.top = (90 + top.get() + "px");
+						seg4.style.left = (left.get() + "px");
+					}
+					else{
+						seg1.style.top = (30 + top.get() + "px");
+						seg1.style.left = (left.get() - 30 + "px");
+						seg2.style.top = (30 + top.get() + "px");
+						seg2.style.left = (left.get() + "px");
+						seg3.style.top = (30 + top.get() + "px");
+						seg3.style.left = (30 + left.get() + "px");
+						seg4.style.top = (30 + top.get() + "px");
+						seg4.style.left = (60 + left.get() + "px");
+					}
+					
+					document.getElementById("tetris-border").appendChild(seg1);
+					document.getElementById("tetris-border").appendChild(seg2);
+					document.getElementById("tetris-border").appendChild(seg3);
+					document.getElementById("tetris-border").appendChild(seg4);
+					top.setVal(0);
+					left.setVal(150);
+				}
+				
+				function testI(){
+					var divs = document.getElementsByClassName("solid-segment");
+					var segments = [segment1.get(),segment2.get(),segment3.get(),segment4.get()];
+					if(iState == 0){
+						for(var i = 0; i < divs.length; i++){
+							if(top.get() + 150 > parseInt(divs[i].style.top, 10)
+							&& left.get() == parseInt(divs[i].style.left, 10)){
+								myVar.clearInterval();
+								printI();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+						}
+						if(top.get() > 510){
+								myVar.clearInterval();
+								printI();
+								myVar2.setInterval(); 
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+						}
+					}
+					else{
+						for(var i = 0; i < divs.length; i++){
+							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& (left.get() - 30 == parseInt(divs[i].style.left, 10)
+								|| left.get() == parseInt(divs[i].style.left, 10)
+								|| left.get() + 30 == parseInt(divs[i].style.left, 10)
+								|| left.get() + 60 == parseInt(divs[i].style.left, 10))){
+								myVar.clearInterval();
+								printI();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+						}
+						if(top.get() > 570){
+								myVar.clearInterval();
+								printI();
+								myVar2.setInterval(); 
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+						}
+					}
+					
+				}
+				
+				function sShape(){
+					segment1.setId("S-Shape");
+					segment1.setLeft(150 +"px");
+					segment1.setTop(30 +"px");
+					
+					segment2.setId("S-Shape");
+					segment2.setLeft(180 + "px");
+					segment2.setTop(30 +"px");
+					
+					segment3.setId("S-Shape");
+					segment3.setLeft(180 +"px");
+					segment4.setId("S-Shape");
+					segment4.setLeft(210 + "px");
+					left.setVal(150);
+					document.getElementById("tetris-border").appendChild(segment1.get());
+					document.getElementById("tetris-border").appendChild(segment2.get());
+					document.getElementById("tetris-border").appendChild(segment3.get());
+					document.getElementById("tetris-border").appendChild(segment4.get());
+				}
+				
+				function drawS(){
+					if(sState == 0){
+						segment1.setTop(30 + top.get() + "px");
+						segment2.setTop(30 + top.get() + "px");
+						segment3.setTop(top.get() + "px");
+						segment4.setTop(top.get() + "px");
+						segment1.setLeft(left.get() + "px");
+						segment2.setLeft(30 + left.get() + "px");
+						segment3.setLeft(30 + left.get() + "px");
+						segment4.setLeft(60 + left.get() + "px");
+						segment1.setColor("lime");
+						segment2.setColor("lime");
+						segment3.setColor("lime");
+						segment4.setColor("lime");
+					}
+					else{
+						segment1.setTop(top.get() + "px");
+						segment2.setTop(30 + top.get() + "px");
+						segment3.setTop(30 + top.get() + "px");
+						segment4.setTop(60 + top.get() + "px");
+						segment1.setLeft(left.get() + "px");
+						segment2.setLeft(left.get() + "px");
+						segment3.setLeft(30 + left.get() + "px");
+						segment4.setLeft(30 + left.get() + "px");
+						segment1.setColor("lime");
+						segment2.setColor("lime");
+						segment3.setColor("lime");
+						segment4.setColor("lime");
+					}
+					
+				}
+				
+				function printS(){
+					var seg1 = document.createElement("div");
+					var seg2 = document.createElement("div");
+					var seg3 = document.createElement("div");
+					var seg4 = document.createElement("div");
+					seg1.className = "solid-segment";
+					seg2.className = "solid-segment";
+					seg3.className = "solid-segment";
+					seg4.className = "solid-segment";
+					seg1.style.backgroundColor = "lime";
+					seg2.style.backgroundColor = "lime";
+					seg3.style.backgroundColor = "lime";
+					seg4.style.backgroundColor = "lime";
+					if(sState == 0){
+						seg1.style.top = (30 + top.get() + "px");
+						seg2.style.top = (30 + top.get() + "px");
+						seg3.style.top = (top.get() + "px");
+						seg4.style.top = (top.get() + "px");
+						seg1.style.left = (left.get() + "px");
+						seg2.style.left = (30 + left.get() + "px");
+						seg3.style.left = (30 + left.get() + "px");
+						seg4.style.left = (60 + left.get() + "px");
+					}
+					else{
+						seg1.style.top = (top.get() + "px");
+						seg2.style.top = (30 + top.get() + "px");
+						seg3.style.top = (30 + top.get() + "px");
+						seg4.style.top = (60 + top.get() + "px");
+						seg1.style.left = (left.get() + "px");
+						seg2.style.left = (left.get() + "px");
+						seg3.style.left = (30 + left.get() + "px");
+						seg4.style.left = (30 + left.get() + "px");
+					}
+					
+					document.getElementById("tetris-border").appendChild(seg1);
+					document.getElementById("tetris-border").appendChild(seg2);
+					document.getElementById("tetris-border").appendChild(seg3);
+					document.getElementById("tetris-border").appendChild(seg4);
+					top.setVal(0);
+					left.setVal(150);
+				}
+				
+				function testS(){
+					var divs = document.getElementsByClassName("solid-segment");
+					var segments = [segment1.get(),segment2.get(),segment3.get(),segment4.get()];
+					if(sState == 0){
+						for(var i = 0; i < divs.length; i++){
+							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& left.get() < parseInt(divs[i].style.left, 10) + 30
+							&& left.get() + 60 > parseInt(divs[i].style.left, 10)){
+								myVar.clearInterval();
+								printS();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+							
+							if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+							&& left.get() + 60 == parseInt(divs[i].style.left, 10)){
+								myVar.clearInterval();
+								printS();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+						}
+						if(top.get() == 600){
+							myVar.clearInterval();
+							printS();
+							myVar2.setInterval(); 
+							randomNumber.set(nextShape);
+							nextShape = getRandomNumber();
+						}
+					}
+					else{
+						for(var i = 0; i < divs.length; i++){
+							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& left.get() == parseInt(divs[i].style.left, 10)){
+								myVar.clearInterval();
+								printS();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+							
+							if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+							&& left.get() + 30 == parseInt(divs[i].style.left, 10)){
+								myVar.clearInterval();
+								printS();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+						}
+						if(top.get() == 570){
+							myVar.clearInterval();
+							printS();
+							myVar2.setInterval(); 
+							randomNumber.set(nextShape);
+							nextShape = getRandomNumber();
+						}
+					}
+					
+				}
+
+				function zShape(){
+					segment1.setId("Z-Shape");
+					segment1.setLeft(150 +"px");
+					
+					segment2.setId("Z-Shape");
+					segment2.setLeft(180 + "px");
+					
+					segment3.setId("Z-Shape");
+					segment3.setTop(30 + "px");
+					segment3.setLeft(180 +"px");
+					segment4.setId("Z-Shape");
+					segment4.setLeft(210 + "px");
+					segment4.setTop(30 + "px");
+					left.setVal(150);
+					document.getElementById("tetris-border").appendChild(segment1.get());
+					document.getElementById("tetris-border").appendChild(segment2.get());
+					document.getElementById("tetris-border").appendChild(segment3.get());
+					document.getElementById("tetris-border").appendChild(segment4.get());
+				}
+				
+				function drawZ(){
+					switch(zState){
+						case 0:
+							segment1.setTop(top.get() + "px");
+							segment2.setTop(top.get() + "px");
+							segment3.setTop(30 + top.get() + "px");
+							segment4.setTop(30 + top.get() + "px");
+							segment1.setLeft(left.get() + "px");
+							segment2.setLeft(30 + left.get() + "px");
+							segment3.setLeft(30 + left.get() + "px");
+							segment4.setLeft(60 + left.get() + "px");
+							segment1.setColor("cyan");
+							segment2.setColor("cyan");
+							segment3.setColor("cyan");
+							segment4.setColor("cyan");
+							break;
+						case 1:
+							segment1.setTop(top.get() - 30 + "px");
+							segment2.setTop(top.get() + "px");
+							segment3.setTop(top.get() + "px");
+							segment4.setTop(30 + top.get() + "px");
+							segment1.setLeft(60 + left.get() + "px");
+							segment2.setLeft(60 + left.get() + "px");
+							segment3.setLeft(30 + left.get() + "px");
+							segment4.setLeft(30 + left.get() + "px");
+							segment1.setColor("cyan");
+							segment2.setColor("cyan");
+							segment3.setColor("cyan");
+							segment4.setColor("cyan");
+							break;
+					}
+				}
+				
+				function printZ(){
+					var seg1 = document.createElement("div");
+					var seg2 = document.createElement("div");
+					var seg3 = document.createElement("div");
+					var seg4 = document.createElement("div");
+					seg1.className = "solid-segment";
+					seg2.className = "solid-segment";
+					seg3.className = "solid-segment";
+					seg4.className = "solid-segment";
+					seg1.style.backgroundColor = "cyan";
+					seg2.style.backgroundColor = "cyan";
+					seg3.style.backgroundColor = "cyan";
+					seg4.style.backgroundColor = "cyan";
+					switch(zState){
+						case 0:
+							seg1.style.top = (top.get() + "px");
+							seg2.style.top = (top.get() + "px");
+							seg3.style.top = (30 + top.get() + "px");
+							seg4.style.top = (30 + top.get() + "px");
+							seg1.style.left = (left.get() + "px");
+							seg2.style.left = (30 + left.get() + "px");
+							seg3.style.left = (30 + left.get() + "px");
+							seg4.style.left = (60 + left.get() + "px");
+							break;
+						case 1:
+							seg1.style.top = (top.get() - 30 + "px");
+							seg2.style.top = (top.get() + "px");
+							seg3.style.top = (top.get() + "px");
+							seg4.style.top = (30 + top.get() + "px");
+							seg1.style.left = (60 + left.get() + "px");
+							seg2.style.left = (60 + left.get() + "px");
+							seg3.style.left = (30 + left.get() + "px");
+							seg4.style.left = (30 + left.get() + "px");
+							break;
+					}
+					
+					document.getElementById("tetris-border").appendChild(seg1);
+					document.getElementById("tetris-border").appendChild(seg2);
+					document.getElementById("tetris-border").appendChild(seg3);
+					document.getElementById("tetris-border").appendChild(seg4);
+					top.setVal(0);
+					left.setVal(150);
+				}
+				
+				function testZ(){
+					var divs = document.getElementsByClassName("solid-segment");
+					var segments = [segment1.get(),segment2.get(),segment3.get(),segment4.get()];
+					if(zState == 0){
+						for(var i = 0; i < divs.length; i++){
+							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& left.get() + 90 > parseInt(divs[i].style.left, 10)
+							&& left.get() < parseInt(divs[i].style.left, 10)){
+								myVar.clearInterval();
+								printZ();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+							if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+							&& left.get() == parseInt(divs[i].style.left, 10)){
+								myVar.clearInterval();
+								printZ();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+						}
+					}
+					else{
+						for(var i = 0; i < divs.length; i++){
+							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& left.get() + 30 == parseInt(divs[i].style.left, 10)){
+								myVar.clearInterval();
+								printZ();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+							if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+							&& left.get() + 60 == parseInt(divs[i].style.left, 10)){
+								myVar.clearInterval();
+								printZ();
+								myVar2.setInterval();
+								randomNumber.set(nextShape);
+								nextShape = getRandomNumber();
+							}
+						}
+					}
+					
+					if(top.get() == 600){
+						myVar.clearInterval();
+						printZ();
+						myVar2.setInterval(); 
+						randomNumber.set(nextShape);
+						nextShape = getRandomNumber();
+					}
+				}
+				
+				function Square(){
+					segment1.setId("segment");
+					segment1.setLeft(150 +"px");
+					segment2.setId("segment");
+					segment2.setLeft(180 + "px");
+					segment3.setId("segment");
+					segment3.setTop(30 + "px");
+					segment3.setLeft(150 +"px");
+					segment4.setId("segment");
+					segment4.setLeft(180 + "px");
+					segment4.setTop(30 + "px");
+					left.setVal(150);
+					
+					document.getElementById("tetris-border").appendChild(segment1.get());
+					document.getElementById("tetris-border").appendChild(segment2.get());
+					document.getElementById("tetris-border").appendChild(segment3.get());
+					document.getElementById("tetris-border").appendChild(segment4.get());
+				}
+				
+				function drawSquare(){
+					segment1.setTop(top.get() + "px");
+					segment2.setTop(top.get() + "px");
+					segment3.setTop(30 + top.get() + "px");
+					segment4.setTop(30 + top.get() + "px");
+					segment1.setLeft(left.get() + "px");
+					segment2.setLeft(30 + left.get() + "px");
+					segment3.setLeft(left.get() + "px");
+					segment4.setLeft(30 + left.get() + "px");
+					segment1.setColor("red");
+					segment2.setColor("red");
+					segment3.setColor("red");
+					segment4.setColor("red");
+				}
+				
+				function printSquare(){
+					var seg1 = document.createElement("div");
+					var seg2 = document.createElement("div");
+					var seg3 = document.createElement("div");
+					var seg4 = document.createElement("div");
+					seg1.className = "solid-segment";
+					seg2.className = "solid-segment";
+					seg3.className = "solid-segment";
+					seg4.className = "solid-segment";
+					seg1.style.top = (top.get() + "px");
+					seg1.style.left = (left.get() + "px");
+					seg2.style.top = (top.get() + "px");
+					seg2.style.left = (left.get() + 30 + "px");
+					seg3.style.top = (top.get() + 30 + "px");
+					seg3.style.left = (left.get() + "px");
+					seg4.style.left = (left.get() + 30 + "px");
+					seg4.style.top = (top.get() + 30 + "px");
+					document.getElementById("tetris-border").appendChild(seg1);
+					document.getElementById("tetris-border").appendChild(seg2);
+					document.getElementById("tetris-border").appendChild(seg3);
+					document.getElementById("tetris-border").appendChild(seg4);
+					top.setVal(0);
+					left.setVal(150);
+				}
+				
+				function testSquare(){
+					var divs = document.getElementsByClassName("solid-segment");
+					for(var i = 0; i < divs.length; i++){
+						if(top.get() + 90 > parseInt(divs[i].style.top, 10) 
+							&& left.get() + 60 > parseInt(divs[i].style.left, 10)
+							&& left.get() < parseInt(divs[i].style.left, 10) + 30){
+							myVar.clearInterval();
+							printSquare();
+							myVar2.setInterval();
+							randomNumber.set(nextShape);
+							nextShape = getRandomNumber();
+						}	
+					}
+					if(top.get() == 600){
+						myVar.clearInterval();
+						printSquare();
+						myVar2.setInterval(); 
+						randomNumber.set(nextShape);
+						nextShape = getRandomNumber();
+					}
+				}
+				
+				function myTimer() {
+					canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
+					top.increment(30);
+					clearRows();
+					var divs = document.getElementsByClassName("solid-segment");
+					for(var i = 0; i < divs.length; i++){
+						if(parseInt(divs[i].style.top, 10) < 180){
+							Square();
+							disp("game over");
+							location.reload();
+						}
+					}
+					switch(nextShape) {
+						case 1:
+							img.src = "O.png";
+							break;
+						case 2:
+							img.src = "Z.png";
+							break;
+						case 3:
+							img.src = "S.png";
+							break;
+						case 4:
+							img.src = "I.png";
+							break;
+						case 5:
+							img.src = "J.png";
+							break;
+						case 6:
+							img.src = "L.png";
+							break;
+						case 7:
+							img.src = "T.png";
+							break;
+					}
+					switch(randomNumber.get()) {
+						case 1:
+							drawSquare();
+							testSquare();
+							break;
+						case 2:
+							drawZ();
+							testZ();
+							break;
+						case 3:
+							drawS();
+							testS();
+							break;
+						case 4:
+							drawI();
+							testI();
+							break;
+						case 5:
+							drawJ();
+							testJ();
+							break;
+						case 6:
+							drawL();
+							testL();
+							break;
+						case 7:
+							drawT();
+							testT();
+							break;
+					}
+				}
+				
+				function startTimer() {
+					canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
+					counter.increment();
+					console.log(document.getElementById("tetris-border").getBoundingClientRect().left);
+					//canvas.style.left = (document.getElementById("tetris-border").getBoundingClientRect().left).toString() + "px";
+					
+					if(counter.get() == 5){
+						//canvas.style.left = (document.getElementById("tetris-border").getBoundingClientRect().left).toString() + "px";
+						counter.set(0);
+						myVar2.clearInterval();
+						myVar.setInterval(); 
+					}
+				}
+				
+				function refreshTimer(){
+					canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
+					//document.getElementById("test").innerHTML = Math.ceil(Math.random()*100);
+				}
+			}
+		</script>
+	</head>
+	<body id="page">
+		<canvas id = "Grid"></canvas>
+		<div id = "tetris-border"></div>
+		<div id = "next-shape">
+			<img src="#" id="nextImg"></img>
+		</div>
+		<div id="test">
+		</div>
+		
+		<footer>  </footer>
+	</body>
+</html>
