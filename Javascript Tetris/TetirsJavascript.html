@@ -249,7 +249,7 @@
 					};
 				})();
 				
-				document.addEventListener("keypress", function (e) {
+				window.addEventListener("keydown", function(e){
 					var divs = document.getElementsByClassName("solid-segment");
 					// wrapped in a function
 					e = e || e.event;
@@ -258,7 +258,6 @@
 						audio.pause();
 						disp("paused");
 						audio.play();
-						
 					}
 
 					else if (e.keyCode == '38') {
@@ -530,7 +529,7 @@
 								break;
 						}
 					}
-				} );
+				},false );
 
 				var segment1 = (function(){
 					var segment = document.createElement("div");
