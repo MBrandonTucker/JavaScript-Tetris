@@ -117,8 +117,6 @@
 		</style>
 		<script type="text/javascript">
 			window.onload = function(){
-				 
-			
 				var iState = 0;
 				var zState = 0;
 				var sState = 0;
@@ -131,7 +129,8 @@
 				var canvas = document.getElementById("Grid");
 				var ctx = canvas.getContext("2d");
 				canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
-				
+				var nextShapeBox = document.getElementById("next-shape");
+				nextShapeBox.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().right)+100).toString() + "px";
 				
 				function clearRows(){
 					var counter = 0;
@@ -165,17 +164,12 @@
 				function start(){
 					//audio.loop = true;
 					//audio.play();
-					
-					
-					
 					canvas.style.position = "absolute";
 					canvas.width = 360;
 					canvas.height = 660;
 					canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
-					
+					nextShapeBox.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().right)+100).toString() + "px";
 					canvas.style.top = "9px";
-					
-					//canvas.style.margin = "auto";
 					ctx.setLineDash([2]);
 					for(var i = 0; i < 12; i++){
 						for(var j = 0; j < 22; j++)
@@ -1973,6 +1967,7 @@
 				
 				function myTimer() {
 					canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
+					nextShapeBox.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().right)+100).toString() + "px";
 					top.increment(30);
 					clearRows();
 					var divs = document.getElementsByClassName("solid-segment");
@@ -2040,12 +2035,10 @@
 				
 				function startTimer() {
 					canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
+					nextShapeBox.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().right)+100).toString() + "px";
 					counter.increment();
 					console.log(document.getElementById("tetris-border").getBoundingClientRect().left);
-					//canvas.style.left = (document.getElementById("tetris-border").getBoundingClientRect().left).toString() + "px";
-					
 					if(counter.get() == 5){
-						//canvas.style.left = (document.getElementById("tetris-border").getBoundingClientRect().left).toString() + "px";
 						counter.set(0);
 						myVar2.clearInterval();
 						myVar.setInterval(); 
@@ -2054,7 +2047,7 @@
 				
 				function refreshTimer(){
 					canvas.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().left)+1).toString() + "px";
-					//document.getElementById("test").innerHTML = Math.ceil(Math.random()*100);
+					nextShapeBox.style.left = ((document.getElementById("tetris-border").getBoundingClientRect().right)+100).toString() + "px";
 				}
 			}
 		</script>
@@ -2065,9 +2058,6 @@
 		<div id = "next-shape">
 			<img src="#" id="nextImg"></img>
 		</div>
-		<div id="test">
-		</div>
-		
 		<footer>  </footer>
 	</body>
 </html>
