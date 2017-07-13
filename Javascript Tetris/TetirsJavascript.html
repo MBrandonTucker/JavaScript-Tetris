@@ -124,7 +124,6 @@
 				var lState = 0;
 				var jState = 0;
 				var nextShape;
-				//var audio = new Audio('tetris.wav');
 				var img = document.getElementById("nextImg");
 				var canvas = document.getElementById("Grid");
 				var ctx = canvas.getContext("2d");
@@ -162,8 +161,6 @@
 				}
 			
 				function start(){
-					//audio.loop = true;
-					//audio.play();
 					canvas.style.position = "absolute";
 					canvas.width = 360;
 					canvas.height = 660;
@@ -178,7 +175,6 @@
 					ctx.stroke();
 					nextShape = getRandomNumber();
 					randomNumber.set(getRandomNumber());
-					
 					switch(nextShape) {
 						case 1:
 							img.src = "O.png";
@@ -228,10 +224,6 @@
 					myVar2.setInterval();
 					myVar3.setInterval();
 				}
-			
-				function disp(str){
-					alert(str);
-				}
 				
 				function getRandomNumber(){
 					return Math.floor((Math.random() * 7) + 1); 
@@ -253,13 +245,10 @@
 					var divs = document.getElementsByClassName("solid-segment");
 					// wrapped in a function
 					e = e || e.event;
-					if (e.keyCode == '19') {
+					if (e.keyCode == '32') {
 						// space key
-						audio.pause();
-						disp("paused");
-						audio.play();
+						alert("Game Paused");
 					}
-
 					else if (e.keyCode == '38') {
 						// up arrow
 						switch(randomNumber.get()) {
@@ -388,7 +377,6 @@
 									else
 										left.setVal(left.get());
 								}
-								
 								break;
 							case 5: // jShape
 								if(left.get() > 0)
@@ -446,7 +434,6 @@
 									else
 										left.setVal(left.get());
 								}
-								
 								break;
 							case 4: // iShape
 								if(iState == 0){
@@ -461,7 +448,6 @@
 									else
 										left.setVal(left.get());
 								}
-								
 								break;
 							case 5: // jShape
 								if(jState == 1){
@@ -482,7 +468,6 @@
 									else
 										left.setVal(left.get());
 								}
-								
 								break;
 							case 6: // lShape
 								switch(lState){
@@ -511,7 +496,6 @@
 											left.setVal(left.get());
 										break;
 								}
-								
 								break;
 							case 7: // tShape
 								if(tState == 3){
@@ -1885,7 +1869,7 @@
 					for(var i = 0; i < divs.length; i++){
 						if(parseInt(divs[i].style.top, 10) < 180){
 							Square();
-							disp("game over");
+							alert("Game Over");
 							location.reload();
 						}
 					}
