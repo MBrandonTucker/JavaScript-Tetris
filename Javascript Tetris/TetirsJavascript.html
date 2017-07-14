@@ -854,6 +854,7 @@
 						case 0:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10)
 								|| left.get() + 30 == parseInt(divs[i].style.left, 10)
 								|| left.get() + 60 == parseInt(divs[i].style.left, 10))){
@@ -872,12 +873,14 @@
 						case 1:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& left.get() + 30 == parseInt(divs[i].style.left, 10)){
 									printT();
 									randomNumber.set(nextShape);
 									nextShape = getRandomNumber();
 								}
 								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& left.get() + 60 == parseInt(divs[i].style.left, 10)){
 									printT();
 									randomNumber.set(nextShape);
@@ -893,18 +896,21 @@
 						case 2:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10))){
 									printT();
 									randomNumber.set(nextShape);
 									nextShape = getRandomNumber();
 								}
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() + 30 == parseInt(divs[i].style.left, 10))){
 									printT();
 									randomNumber.set(nextShape);
 									nextShape = getRandomNumber();
 								}
 								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() + 60 == parseInt(divs[i].style.left, 10))){
 									printT();
 									randomNumber.set(nextShape);
@@ -921,12 +927,14 @@
 						case 3:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10))){
 									printT();
 									randomNumber.set(nextShape);
 									nextShape = getRandomNumber();
 								}
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() + 30 == parseInt(divs[i].style.left, 10))){
 									printT();
 									randomNumber.set(nextShape);
@@ -1096,6 +1104,7 @@
 						case 0:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() + 30 < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10)
 								|| left.get() + 30 == parseInt(divs[i].style.left, 10))){
 									printL();
@@ -1107,12 +1116,14 @@
 						case 1:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& left.get() == parseInt(divs[i].style.left, 10)){
 									printL();
 									randomNumber.set(nextShape);
 									nextShape = getRandomNumber();
 								}
 								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10)
 								|| left.get() + 30 == parseInt(divs[i].style.left, 10)
 								|| left.get() + 60 == parseInt(divs[i].style.left, 10))){
@@ -1126,12 +1137,14 @@
 						case 2:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& left.get()  == parseInt(divs[i].style.left, 10)){
 									printL();
 									randomNumber.set(nextShape);
 									nextShape = getRandomNumber();
 								}
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& left.get() + 30 == parseInt(divs[i].style.left, 10)){
 									printL();
 									randomNumber.set(nextShape);
@@ -1142,6 +1155,7 @@
 						case 3: 
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10)
 									|| left.get() + 30 == parseInt(divs[i].style.left, 10)
 									|| left.get() + 60 == parseInt(divs[i].style.left, 10))){
@@ -1313,6 +1327,7 @@
 						case 0:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() + 30 < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10)
 								|| left.get() + 30 == parseInt(divs[i].style.left, 10))){
 									printJ();
@@ -1324,6 +1339,7 @@
 						case 1:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10)
 								|| left.get() + 30 == parseInt(divs[i].style.left, 10)
 								|| left.get() + 60 == parseInt(divs[i].style.left, 10))){
@@ -1336,12 +1352,14 @@
 						case 2:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10))){
 									printJ();
 									randomNumber.set(nextShape);
 									nextShape = getRandomNumber();
 								}
 								if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() + 30 == parseInt(divs[i].style.left, 10))){
 									printJ();
 									randomNumber.set(nextShape);
@@ -1352,6 +1370,7 @@
 						case 3:
 							for(var i = 0; i < divs.length; i++){
 								if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() == parseInt(divs[i].style.left, 10)
 								|| left.get() + 30 == parseInt(divs[i].style.left, 10))){
 									printJ();
@@ -1359,6 +1378,7 @@
 									nextShape = getRandomNumber();
 								}
 								if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+								&& top.get() < parseInt(divs[i].style.top, 10)
 								&& (left.get() + 60 == parseInt(divs[i].style.left, 10))){
 									printJ();
 									randomNumber.set(nextShape);
@@ -1476,6 +1496,7 @@
 					if(iState == 0){
 						for(var i = 0; i < divs.length; i++){
 							if(top.get() + 150 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() == parseInt(divs[i].style.left, 10)){
 								printI();
 								randomNumber.set(nextShape);
@@ -1491,6 +1512,7 @@
 					else{
 						for(var i = 0; i < divs.length; i++){
 							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& (left.get() - 30 == parseInt(divs[i].style.left, 10)
 								|| left.get() == parseInt(divs[i].style.left, 10)
 								|| left.get() + 30 == parseInt(divs[i].style.left, 10)
@@ -1608,6 +1630,7 @@
 					if(sState == 0){
 						for(var i = 0; i < divs.length; i++){
 							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() < parseInt(divs[i].style.left, 10) + 30
 							&& left.get() + 60 > parseInt(divs[i].style.left, 10)){
 								printS();
@@ -1616,6 +1639,7 @@
 							}
 							
 							if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() + 60 == parseInt(divs[i].style.left, 10)){
 								printS();
 								randomNumber.set(nextShape);
@@ -1631,6 +1655,7 @@
 					else{
 						for(var i = 0; i < divs.length; i++){
 							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() == parseInt(divs[i].style.left, 10)){
 								printS();
 								randomNumber.set(nextShape);
@@ -1638,6 +1663,7 @@
 							}
 							
 							if(top.get() + 120 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() + 30 == parseInt(divs[i].style.left, 10)){
 								printS();
 								randomNumber.set(nextShape);
@@ -1755,6 +1781,7 @@
 					if(zState == 0){
 						for(var i = 0; i < divs.length; i++){
 							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() + 90 > parseInt(divs[i].style.left, 10)
 							&& left.get() < parseInt(divs[i].style.left, 10)){
 								printZ();
@@ -1762,6 +1789,7 @@
 								nextShape = getRandomNumber();
 							}
 							if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() == parseInt(divs[i].style.left, 10)){
 								printZ();
 								randomNumber.set(nextShape);
@@ -1772,12 +1800,14 @@
 					else{
 						for(var i = 0; i < divs.length; i++){
 							if(top.get() + 90 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() + 30 == parseInt(divs[i].style.left, 10)){
 								printZ();
 								randomNumber.set(nextShape);
 								nextShape = getRandomNumber();
 							}
 							if(top.get() + 60 > parseInt(divs[i].style.top, 10)
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() + 60 == parseInt(divs[i].style.left, 10)){
 								printZ();
 								randomNumber.set(nextShape);
@@ -1785,7 +1815,6 @@
 							}
 						}
 					}
-					
 					if(top.get() == 600){
 						printZ(); 
 						randomNumber.set(nextShape);
@@ -1856,6 +1885,7 @@
 					var divs = document.getElementsByClassName("solid-segment");
 					for(var i = 0; i < divs.length; i++){
 						if(top.get() + 90 > parseInt(divs[i].style.top, 10) 
+							&& top.get() < parseInt(divs[i].style.top, 10)
 							&& left.get() + 60 > parseInt(divs[i].style.left, 10)
 							&& left.get() < parseInt(divs[i].style.left, 10) + 30){
 							printSquare();
@@ -1984,6 +2014,7 @@
 							break;
 					}
 				}
+				
 				function leftMoveValid(){
 					var divs = document.getElementsByClassName("solid-segment");
 					var segments = [segment1.get(),segment2.get(),segment3.get(),segment4.get()];
