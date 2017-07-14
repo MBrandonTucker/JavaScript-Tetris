@@ -332,73 +332,72 @@
 					}
 					else if (e.keyCode == '40') {
 						// down arrow
-						if(top.get() < 600)
-							top.increment(30);
+						top.increment(30);
 					}
 					else if (e.keyCode == '37') {
 						// left arrow
 						switch(randomNumber.get()) {
 							case 1: //square
-								if(left.get() > 0)
+								if(left.get() > 0 && leftMoveValid())
 									left.decrement(30);
 								else
 									left.setVal(left.get());
 								break;
 							case 2: // zShape
-								if(zState == 0){
+								if(zState == 0 && leftMoveValid()){
 									if(left.get() > 0)
 										left.decrement(30);
 									else
 										left.setVal(left.get());
 								}
 								else{
-									if(left.get() + 30 > 0)
+									if(left.get() + 30 > 0 && leftMoveValid())
 										left.decrement(30);
 									else
 										left.setVal(left.get());
 								}
 								break;
 							case 3: // sShape
-								if(left.get() > 0)
+								if(left.get() > 0 && leftMoveValid())
 									left.decrement(30);
 								else
 									left.setVal(left.get());
 								break;
 							case 4: // iShape
-								if(iState == 0){
+								if(iState == 0 && leftMoveValid()){
 									if(left.get() > 0)
 										left.decrement(30);
 									else
 										left.setVal(left.get());
 								}
 								else{
-									if(left.get() - 30 > 0)
+									if(left.get() - 30 > 0 && leftMoveValid())
 										left.decrement(30);
 									else
 										left.setVal(left.get());
 								}
 								break;
 							case 5: // jShape
-								if(left.get() > 0)
+								if(left.get() > 0 && leftMoveValid())
 									left.decrement(30);
 								else
 									left.setVal(left.get());
 								break;
 							case 6: // lShape
-								if(left.get() > 0)
+								if(left.get() > 0 && leftMoveValid())
 									left.decrement(30);
 								else
 									left.setVal(left.get());
 								break;
 							case 7: // tShape
-								if(tState == 1){
+								if(tState == 1 && leftMoveValid()){
 									if(left.get() + 30 > 0)
 										left.decrement(30);
 									else
 										left.setVal(left.get());
 								}
 								else{
-									if(left.get() > 0)
+									if(left.get() > 0 && leftMoveValid())
 										left.decrement(30);
 									else
 										left.setVal(left.get());
@@ -410,26 +409,26 @@
 					   // right arrow
 						switch(randomNumber.get()) {
 							case 1: //swqaure
-								if(left.get() < 300)
+								if(left.get() < 300 && rightMoveValid())
 									left.increment(30);
 								else
 									left.setVal(left.get());
 								break;
 							case 2: // zShape
-								if(left.get() < 270)
+								if(left.get() < 270 && rightMoveValid())
 									left.increment(30);
 								else
 									left.setVal(left.get());
 								break;
 							case 3: // sShape
 								if(sState == 0){
-									if(left.get() < 270)
+									if(left.get() < 270  && rightMoveValid())
 										left.increment(30);
 									else
 										left.setVal(left.get());
 								}
 								else{
-									if(left.get() < 300)
+									if(left.get() < 300  && rightMoveValid())
 										left.increment(30);
 									else
 										left.setVal(left.get());
@@ -437,13 +436,13 @@
 								break;
 							case 4: // iShape
 								if(iState == 0){
-									if(left.get() < 330)
+									if(left.get() < 330  && rightMoveValid())
 										left.increment(30);
 									else
 										left.setVal(left.get());
 									}
 								else{
-									if(left.get() < 270)
+									if(left.get() < 270  && rightMoveValid())
 										left.increment(30);
 									else
 										left.setVal(left.get());
@@ -451,19 +450,19 @@
 								break;
 							case 5: // jShape
 								if(jState == 1){
-									if(left.get() < 270)
+									if(left.get() < 270 && rightMoveValid())
 										left.increment(30);
 									else
 										left.setVal(left.get());
 									}
 								else if(jState == 3){
-									if(left.get() < 270)
+									if(left.get() < 270 && rightMoveValid())
 										left.increment(30);
 									else
 										left.setVal(left.get());
 								}
 								else{
-									if(left.get() < 300)
+									if(left.get() < 300 && rightMoveValid())
 										left.increment(30);
 									else
 										left.setVal(left.get());
@@ -472,25 +471,25 @@
 							case 6: // lShape
 								switch(lState){
 									case 0:
-										if(left.get() < 300)
+										if(left.get() < 300 && rightMoveValid())
 											left.increment(30);
 										else
 											left.setVal(left.get());
 										break;
 									case 1:
-										if(left.get() + 30 < 300)
+										if(left.get() + 30 < 300  && rightMoveValid())
 											left.increment(30);
 										else
 											left.setVal(left.get());
 										break;
 									case 2:
-										if(left.get() < 300)
+										if(left.get() < 300  && rightMoveValid())
 											left.increment(30);
 										else
 											left.setVal(left.get());
 										break;
 									case 3:
-										if(left.get() + 30 < 300)
+										if(left.get() + 30 < 300  && rightMoveValid())
 											left.increment(30);
 										else
 											left.setVal(left.get());
@@ -499,13 +498,13 @@
 								break;
 							case 7: // tShape
 								if(tState == 3){
-									if(left.get() < 300)
+									if(left.get() < 300  && rightMoveValid())
 										left.increment(30);
 									else
 										left.setVal(left.get());
 								}
 								else{
-									if(left.get() < 270)
+									if(left.get() < 270  && rightMoveValid())
 										left.increment(30);
 									else
 										left.setVal(left.get());
@@ -539,7 +538,9 @@
 						setColor: function(val){
 							return segment.style.backgroundColor = val;
 						},
-						
+						getLeft: function(){
+							return segment.style.left;
+						}
 					};
 				})();
 				
@@ -560,6 +561,9 @@
 						},
 						setColor: function(val){
 							return segmentTwo.style.backgroundColor = val;
+						},
+						getLeft: function(){
+							return segmentTwo.style.left;
 						}
 					};
 				})();
@@ -581,6 +585,9 @@
 						},
 						setColor: function(val){
 							return segmentThree.style.backgroundColor = val;
+						},
+						getLeft: function(){
+							return segmentThree.style.left;
 						}
 					};
 				})();
@@ -602,6 +609,9 @@
 						},
 						setColor: function(val){
 							return segmentFour.style.backgroundColor = val;
+						},
+						getLeft: function(){
+							return segmentFour.style.left;
 						}
 					};
 				})();
@@ -1973,6 +1983,33 @@
 							testT();
 							break;
 					}
+				}
+				function leftMoveValid(){
+					var divs = document.getElementsByClassName("solid-segment");
+					var segments = [segment1.get(),segment2.get(),segment3.get(),segment4.get()];
+					for(var i = 0; i < segments.length; i++){
+						for(var j = 0; j < divs.length; j++){
+							if(parseInt(segments[i].style.left,10) == parseInt(divs[j].style.left,10) + 30 
+								&& parseInt(segments[i].style.top,10) == parseInt(divs[j].style.top,10)){
+								return false;
+							}	
+						}
+					}
+					return true;
+				}
+				
+				function rightMoveValid(){
+					var divs = document.getElementsByClassName("solid-segment");
+					var segments = [segment1.get(),segment2.get(),segment3.get(),segment4.get()];
+					for(var i = 0; i < segments.length; i++){
+						for(var j = 0; j < divs.length; j++){
+							if(parseInt(segments[i].style.left,10) + 30 == parseInt(divs[j].style.left,10)
+								&& parseInt(segments[i].style.top,10) == parseInt(divs[j].style.top,10)){
+								return false;
+							}	
+						}
+					}
+					return true;
 				}
 			}
 		</script>
